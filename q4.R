@@ -80,3 +80,18 @@ confusionMatrix(predict(ldaModel2,testing),testing$diagnosis) #Accuracy 76%
 
 #Conclusion: Stacked Accuracy: 0.80 is better than random forests and lda and the same as boosting.
 
+################### Question 3 ######################
+
+set.seed(3523)
+
+library(AppliedPredictiveModeling)
+
+data(concrete)
+
+inTrain = createDataPartition(concrete$CompressiveStrength, p = 3/4)[[1]]
+
+training = concrete[ inTrain,]
+
+testing = concrete[-inTrain,]
+
+
