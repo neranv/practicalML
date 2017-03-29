@@ -94,4 +94,53 @@ training = concrete[ inTrain,]
 
 testing = concrete[-inTrain,]
 
+library(glmnet)
+set.seed(233)
+
+xmat <- as.matrix(training[,c("Cement","BlastFurnaceSlag","CoarseAggregate","FineAggregate")])
+
+lassoModel <- glmnet(x=xmat,y=training[,9])
+
+#quartz()
+plot(lassoModel, xvar = "lambda", label = TRUE)
+
+#Solution: "FineAggregate" gets removed first
+
+######################## Question 4 ######################
+
+library(lubridate) # For year() function below
+
+dat = read.csv("~/Desktop/gaData.csv")
+
+training = dat[year(dat$date) < 2012,]
+
+testing = dat[(year(dat$date)) > 2011,]
+
+tstrain = ts(training$visitsTumblr)
+
+
+############  Question 5 #######################
+
+set.seed(3523)
+
+library(AppliedPredictiveModeling)
+
+data(concrete)
+
+inTrain = createDataPartition(concrete$CompressiveStrength, p = 3/4)[[1]]
+
+training = concrete[ inTrain,]
+
+testing = concrete[-inTrain,]
+
+library(e1071)
+set.seed(325)
+
+svmModel <- svm(CompressiveStrength ~ . , data = training)
+
+pred_values <- predict(svmModel,testing)
+
+err <- pred_values - testing$CompressiveStrength
+
+rmse <- sqrt(mean(err^2)) #solution:  RMSE is 6.705699
 
